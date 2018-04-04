@@ -1,0 +1,1 @@
+export const APP_ID = process && process.env.AGORA_APP_ID || '74a0b7bb5d3e47c7abca0533d17b0afa'
