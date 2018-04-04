@@ -55,6 +55,18 @@ const removeStream = () => {
   }
 }
 
+const getMessage = mode => {
+  switch(mode) {
+    case 0:
+      return 'Tile mode is suitable for 1-N streams'
+    case 1:
+      return 'PIP mode is suitable for 1-4 streams'
+    case 2:
+      return 'Screen sharing mode is suitable for 1-8 streams'
+    default:
+      return ''
+  }
+}
 
 client.init(APP_ID, () => {
   // init successfully
@@ -74,7 +86,10 @@ document.querySelector('#remove').addEventListener('click', () => {
 
 document.querySelector('#mode').addEventListener('change', (e) => {
   mode = Number(e.currentTarget.value)
-  renderer.customRender(streamList, mode)
+  if (streamList.length) {
+    renderer.customRender(streamList, mode)
+  }
+  document.querySelector('#message-box').innerHTML = getMessage(mode)
 })
 
 const isMobileSize = () => {
@@ -84,21 +99,7 @@ const isMobileSize = () => {
   return false;
 };
 
-let jqueryCount = 0
-let vanillaCount = 0 
-
-// $(window).on('resize', () => {
-//   console.log(`%c${++jqueryCount}`, 'color: red')
-//   // if (isMobileSize()) {
-//   //   renderer.enterFullScreen()
-//   // } else {
-//   //   renderer.exitFullScreen()
-//   // }
-//   // renderer.customRender(streamList, mode)
-// })
-
 window.addEventListener('resize', () => {
-  console.log(`%c${++vanillaCount}`, 'color: green')
   if (isMobileSize()) {
     renderer.enterFullScreen()
   } else {

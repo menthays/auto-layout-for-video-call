@@ -13,12 +13,19 @@ body {
 
 header {
   height: 3.5rem;
+  padding: 0 5rem;
 }
 
 footer {
   height: 3.5rem;
+  text-align: center;
 }
 
 main {
   height: calc(100% - 7rem);
+}
+
+#message-box {
+  font-size: .6rem;
+  color: green;
 }
