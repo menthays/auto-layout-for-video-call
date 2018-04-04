@@ -55,6 +55,13 @@ const removeStream = () => {
   }
 }
 
+const isMobileSize = () => {
+  if (window.innerWidth <= 800 && window.innerHeight <= 830) {
+    return true;
+  }
+  return false;
+};
+
 const getMessage = mode => {
   switch(mode) {
     case 0:
@@ -66,6 +73,10 @@ const getMessage = mode => {
     default:
       return ''
   }
+}
+
+if (isMobileSize()) {
+  renderer.enterFullScreen()
 }
 
 client.init(APP_ID, () => {
@@ -92,12 +103,7 @@ document.querySelector('#mode').addEventListener('change', (e) => {
   document.querySelector('#message-box').innerHTML = getMessage(mode)
 })
 
-const isMobileSize = () => {
-  if (window.innerWidth <= 800 && window.innerHeight <= 830) {
-    return true;
-  }
-  return false;
-};
+
 
 window.addEventListener('resize', () => {
   if (isMobileSize()) {

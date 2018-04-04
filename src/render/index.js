@@ -23,7 +23,7 @@ export default {
 
     // Get no
     let no = streamList.length;
-    mainId = mainId || streamList[streamList.length-1].getId()
+    mainId = mainId || streamList[streamList.length - 1] && streamList[streamList.length - 1].getId()
 
     // We should consider no, isMobileSize, currentMode
     if ((no > 4 && mode === 1) || no > 8) {
@@ -80,7 +80,10 @@ export default {
    * @description Tile mode renderer. Recommended for 1-N people.
    */
   tileRenderer(streamList) {
-    let { width, height } = calcSize({
+    let {
+      width,
+      height
+    } = calcSize({
       width: this.canvas.clientWidth,
       height: this.canvas.clientHeight,
       minRatio: this.MIN_RATIO,
@@ -105,8 +108,7 @@ export default {
     }
 
     // Check ratio before using pip ratio
-    if (
-      !this._checkRatio(
+    if (!this._checkRatio(
         this.canvas.clientWidth * 4 / 24,
         this.canvas.clientHeight * 3 / 12
       ) ||
@@ -145,31 +147,34 @@ export default {
       throw Error('Screen Sharing Mode only suitable for less than 8 stream');
     }
 
-    // Check ratio before using screen sharing ratio
-    if (
-      !this._checkRatio(
+    // Check ratio before using screen sharing ratio unless there is only one stream
+    if (!this._checkRatio(
         this.canvas.clientWidth * 4 / 24,
         this.canvas.clientHeight * 4 / 12
-      )
-    ) {
+      ) && streamList.length !== 1) {
       // Hide other streams
-      let mainStreamIndex = streamList.findIndex(function(element) {
+      let mainStreamIndex = streamList.findIndex(function (element) {
         return element.getId() === mainId;
       });
       if (mainStreamIndex === -1) {
         throw Error('Cannot find stream by given mainId!');
       }
-      return this.sharingRenderer([streamList[mainStreamIndex]]);
+      // only render main stream(sharing stream)
+      for (let i=0; i<no; i++) {
+        if (i !== mainStreamIndex) {
+          this.updateVideoItem(streamList[i], 'display: none')
+        }
+      }
+      return this.sharingRenderer([streamList[mainStreamIndex]], mainId)
     }
 
-    // Now you can use screen sharing mode
     // copy a temp streamList
     let tempStreamList = [...streamList];
-
+    // Now you can use screen sharing mode
     if (no === 8) {
       // When there are 7 people with 1 sharing stream, hide audio stream or local stream
       // try to find first audio stream and splice it, if not splice local stream
-      let shouldRemoveStreamIndex = tempStreamList.findIndex(function(element) {
+      let shouldRemoveStreamIndex = tempStreamList.findIndex(function (element) {
         return element.hasAudio();
       });
       if (shouldRemoveStreamIndex === -1) {
