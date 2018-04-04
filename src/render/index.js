@@ -33,6 +33,9 @@ export default {
     } else {
       this.rendererFactory(streamList, mode, mainId);
     }
+    for (let stream of streamList) {
+      stream.player && stream.player.resize()
+    }
   },
 
   rendererFactory(streamList, mode, mainId) {
@@ -59,11 +62,10 @@ export default {
     }
     if (fit) {
       dom.classList.add('window__fit');
+    } else {
+      dom.classList.remove('window__fit');
     }
     dom.setAttribute('style', style);
-    if (stream.player.resize) {
-      stream.player.resize();
-    }
   },
 
   enterFullScreen() {
@@ -189,9 +191,10 @@ export default {
         } else {
           this.updateVideoItem(stream, `grid-area: span 12/span 16/13/21;`, true);
         }
+      } else {
+        // Normal stream
+        this.updateVideoItem(stream, `grid-area: span 4/span 4`);
       }
-      // Normal stream
-      this.updateVideoItem(stream, `grid-area: span 4/span 4`);
     }
   }
 };
