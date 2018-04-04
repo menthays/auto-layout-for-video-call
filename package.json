@@ -52,7 +52,7 @@
   },
   "name": "auto-layout-for-video-call",
   "author": {
-    "name": "menthays &lt;tillohao@gmail.com&gt;"
+    "name": "menthays <tillohao@gmail.com>"
   },
   "description": "Auto layout for video call",
   "dependencies": {}
