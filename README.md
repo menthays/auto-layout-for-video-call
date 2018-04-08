@@ -1,5 +1,5 @@
 # Auto layout for video call 
-- provide a solution for layout of web video call app (Support mobile devices) when using Agora WebRtc SDK.
+- provide a solution for layout of web video call app (Support mobile devices) when using Agora WebRtc SDK. You can test it at [https://auto-layout-for-video-call.netlify.com](https://auto-layout-for-video-call.netlify.com).
 
 ## What's done?
 First we define three kinds of layout: tile mode, pip mode, and screen sharing mode. 
